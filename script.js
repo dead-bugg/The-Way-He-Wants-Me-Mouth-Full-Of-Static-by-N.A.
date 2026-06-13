@@ -34,7 +34,7 @@
 
 const CHAPTERS = [
   {
-    title: "I. The Restraint Chair",
+    title: "I.Restrains",
     content: `The blood under my fingernails has already dried by the time I opened my eyes.
 I appeared to be seated in a padded restraint chair - not because I fought it, this time I chose to comply, surprisingly. But I have to confess, giving up felt better than I thought.
 
