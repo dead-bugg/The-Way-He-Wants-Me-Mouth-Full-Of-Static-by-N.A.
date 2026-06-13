@@ -172,10 +172,9 @@ ul { list-style: none; }
 #dust-canvas {
   position: fixed;
   inset: 0;
-  z-index: 2;
+  z-index: 9999;
   pointer-events: none;
 }
-
 /* Respect reduced-motion preference */
 @media (prefers-reduced-motion: reduce) {
   #fog-overlay,
