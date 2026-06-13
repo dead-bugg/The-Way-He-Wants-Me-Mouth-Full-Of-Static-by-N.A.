@@ -606,30 +606,54 @@ function initParticles() {
   resize();
   window.addEventListener('resize', resize);
 
-  particles = Array.from({ length: 120 }, () => ({
-    x:     Math.random() * window.innerWidth,
-    y:     Math.random() * window.innerHeight,
-    r:     1.5 + Math.random() * 3,
-    dx:    (Math.random() - 0.5) * 0.3,
-    dy:    -(0.2 + Math.random() * 0.4),
-    alpha: 0.5 + Math.random() * 0.4
+  particles = Array.from({ length: 150 }, () => ({
+    x:       Math.random() * window.innerWidth,
+    y:       Math.random() * window.innerHeight,
+    r:       0.5 + Math.random() * 2,
+    speedX:  (Math.random() - 0.5) * 0.6,
+    speedY:  (Math.random() - 0.5) * 0.6,
+    angle:   Math.random() * Math.PI * 2,
+    spin:    (Math.random() - 0.5) * 0.03,
+    alpha:   0.3 + Math.random() * 0.5,
+    flicker: Math.random() * Math.PI * 2,
+    length:  3 + Math.random() * 6
   }));
 
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     particles.forEach(p => {
+      // Flicker opacity gently
+      p.flicker += 0.02;
+      const opacity = p.alpha * (0.7 + Math.sin(p.flicker) * 0.3);
+
+      // Draw as a tiny elongated dust speck, not a circle
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.angle);
       ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(210, 200, 205, ${p.alpha})`;
+      ctx.ellipse(0, 0, p.length, p.r * 0.5, 0, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(215, 208, 210, ${opacity})`;
       ctx.fill();
+      ctx.restore();
 
-      p.x += p.dx + Math.sin(Date.now() * 0.0005 + p.y) * 0.15;
-      p.y += p.dy;
+      // Chaotic movement — drifts in all directions with turbulence
+      p.speedX += (Math.random() - 0.5) * 0.04;
+      p.speedY += (Math.random() - 0.5) * 0.04;
 
-      if (p.y < -p.r)               p.y = canvas.height + p.r;
-      if (p.x < -p.r)               p.x = canvas.width  + p.r;
-      if (p.x > canvas.width + p.r)  p.x = -p.r;
+      // Limit max speed so they don't fly away
+      p.speedX = Math.max(-0.8, Math.min(0.8, p.speedX));
+      p.speedY = Math.max(-0.8, Math.min(0.8, p.speedY));
+
+      p.x     += p.speedX;
+      p.y     += p.speedY;
+      p.angle += p.spin;
+
+      // Wrap around screen edges
+      if (p.x < -10)                    p.x = canvas.width  + 10;
+      if (p.x > canvas.width  + 10)     p.x = -10;
+      if (p.y < -10)                    p.y = canvas.height + 10;
+      if (p.y > canvas.height + 10)     p.y = -10;
     });
 
     animFrame = requestAnimationFrame(draw);
