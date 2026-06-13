@@ -390,12 +390,12 @@ const MUSIC_TRACKS = [
    [PARTICLE CONFIG] — Dust particle look and behaviour.
    ────────────────────────────────────────────────────────────── */
 const PARTICLE_CONFIG = {
-  count:      55,    /* total number of dust motes                    */
-  minSize:    1,     /* minimum radius in px                          */
-  maxSize:    2.8,   /* maximum radius in px                          */
-  minSpeed:  0.08,  /* slowest drift speed                            */
-  maxSpeed:  0.28,  /* fastest drift speed                            */
-  opacity:   0.45   /* base opacity (0–1)                             */
+  count:      80,
+  minSize:    1,
+  maxSize:    3.5,
+  minSpeed:  0.06,
+  maxSpeed:  0.22,
+  opacity:   0.65
 };
 
 
