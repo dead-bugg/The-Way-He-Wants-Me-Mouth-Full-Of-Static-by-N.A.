@@ -390,12 +390,12 @@ const MUSIC_TRACKS = [
    [PARTICLE CONFIG] — Dust particle look and behaviour.
    ────────────────────────────────────────────────────────────── */
 const PARTICLE_CONFIG = {
-  count:      80,
-  minSize:    1,
-  maxSize:    3.5,
-  minSpeed:  0.06,
-  maxSpeed:  0.22,
-  opacity:   0.65
+  count:      120,
+  minSize:    1.5,
+  maxSize:    4,
+  minSpeed:   0.15,
+  maxSpeed:   0.4,
+  opacity:    0.8
 };
 
 
@@ -620,15 +620,13 @@ function initParticles() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // Determine particle color from CSS variable
-    const isDarkMode  = document.body.classList.contains('dark-mode');
-    const color = isDarkMode
-      ? 'rgba(194, 132, 154, 0.35)'
-      : 'rgba(194, 132, 154, 0.55)';
-
+   const color = isDarkMode
+  ? 'rgba(200, 200, 200, 0.75)'
+  : 'rgba(180, 180, 180, 0.65)';
     particles.forEach(p => {
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = color.replace(/[\d.]+\)$/, `${p.alpha})`);
+      ctx.fillStyle = color;
       ctx.fill();
 
       // Drift upward and wiggle
