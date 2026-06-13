@@ -606,37 +606,30 @@ function initParticles() {
   resize();
   window.addEventListener('resize', resize);
 
-  // Create particles
-  particles = Array.from({ length: PARTICLE_CONFIG.count }, () => ({
-    x:     Math.random() * canvas.width,
-    y:     Math.random() * canvas.height,
-    r:     PARTICLE_CONFIG.minSize + Math.random() * (PARTICLE_CONFIG.maxSize - PARTICLE_CONFIG.minSize),
-    dx:    (Math.random() - 0.5) * PARTICLE_CONFIG.maxSpeed,
-    dy:   -(PARTICLE_CONFIG.minSpeed + Math.random() * (PARTICLE_CONFIG.maxSpeed - PARTICLE_CONFIG.minSpeed)),
-    alpha: Math.random() * PARTICLE_CONFIG.opacity
+  particles = Array.from({ length: 120 }, () => ({
+    x:     Math.random() * window.innerWidth,
+    y:     Math.random() * window.innerHeight,
+    r:     1.5 + Math.random() * 3,
+    dx:    (Math.random() - 0.5) * 0.3,
+    dy:    -(0.2 + Math.random() * 0.4),
+    alpha: 0.5 + Math.random() * 0.4
   }));
 
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Determine particle color from CSS variable
-   const color = isDarkMode
-  ? 'rgba(200, 200, 200, 0.75)'
-  : 'rgba(180, 180, 180, 0.65)';
     particles.forEach(p => {
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = color;
+      ctx.fillStyle = `rgba(210, 200, 205, ${p.alpha})`;
       ctx.fill();
 
-      // Drift upward and wiggle
-      p.x  += p.dx + Math.sin(Date.now() * 0.0005 + p.y) * 0.12;
-      p.y  += p.dy;
+      p.x += p.dx + Math.sin(Date.now() * 0.0005 + p.y) * 0.15;
+      p.y += p.dy;
 
-      // Wrap around edges
-      if (p.y < -p.r)              p.y = canvas.height + p.r;
-      if (p.x < -p.r)              p.x = canvas.width  + p.r;
-      if (p.x > canvas.width + p.r) p.x = -p.r;
+      if (p.y < -p.r)               p.y = canvas.height + p.r;
+      if (p.x < -p.r)               p.x = canvas.width  + p.r;
+      if (p.x > canvas.width + p.r)  p.x = -p.r;
     });
 
     animFrame = requestAnimationFrame(draw);
@@ -644,7 +637,6 @@ function initParticles() {
 
   draw();
 }
-
 
 /* ================================================================
    FONT SIZE CONTROL
